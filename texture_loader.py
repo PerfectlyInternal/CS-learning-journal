@@ -8,6 +8,7 @@ def load_texture(texture_path):
 	print("loading image", texture_path)
 	image = Image.open(texture_path).convert("RGB")
 	image_data = image.transpose(Image.FLIP_TOP_BOTTOM).tobytes()
+	image.close()
 	
 	# create the texture and load data into VRAM
 	texture = glGenTextures(1)

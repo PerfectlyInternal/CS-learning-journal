@@ -5,7 +5,9 @@ import gl_debugging as debug
 # simplifies things because this is a mess
 def load_data_into_buffer(buf, data):
 	glBindBuffer(GL_ARRAY_BUFFER, buf)
-	glBufferData(GL_ARRAY_BUFFER,len(data)*4,(GLfloat * len(data))(*data),GL_STATIC_DRAW)
+	print((GLfloat * len(data))(*data))
+	glBufferData(GL_ARRAY_BUFFER, len(data)*4, (GLfloat * len(data))(*data), GL_STATIC_DRAW)
+	print(glGetBufferSubData(GL_ARRAY_BUFFER, 0, len(data)))
 	debug.check_gl_error()
 
 # utility function to create a GL buffer filled with data
@@ -18,5 +20,11 @@ def create_buffer_with_data(data):
 def set_buffer_as_vertex_attrib(index, buf, vsize):
 	glEnableVertexAttribArray(index)
 	glBindBuffer(GL_ARRAY_BUFFER, buf)
-	glVertexAttribPointer(index, vsize, GL_FLOAT, GL_FALSE, 0, None)
+	glVertexAttribPointer(
+			index,	  # which attribute index to use
+			vsize, 	  # size of vector per vertex
+			GL_FLOAT, # type of data
+			GL_FALSE, # dont normalize
+			0, 	  # all data is tightly packed
+			None)	  # offset to start of data in buffer
 	debug.check_gl_error()

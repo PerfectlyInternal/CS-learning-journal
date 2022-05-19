@@ -17,8 +17,10 @@ class model:
 		# check if we should use default cube model
 		if(model_path == None):
 			self.verts = verts.verts
-			self.uv = verts.colors
+			self.colors = verts.colors
+			self.uv = verts.uv
 			self.vert_buf = gl_buf.create_buffer_with_data(self.verts)
+			self.color_buf = gl_buf.create_buffer_with_data(self.colors)
 			self.uv_buf = gl_buf.create_buffer_with_data(self.uv)
 		else:
 			self.verts = self.load_model(model_path)
@@ -30,14 +32,16 @@ class model:
 
 		# no default textures, yet
 		self.textures = []
-		self.textureIDs = []
 		for path in texture_paths:
 			self.textures.append(texture_loader.load_texture(path))
 		if(len(self.textures) > GL_MAX_TEXTURE_UNITS):
 			print("Warning: too many textures loaded, OpenGL may not behave correctly")
-		# get IDs for texture inputs in the shader program
+		
+		# get IDs for texture inputs and set which texture slot should be used for them in the shader program
+		glUseProgram(self.shader)
 		for i in range(len(self.textures)):
-			self.textureIDs.append(glGetUniformLocation(self.shader, "texture" + str(i)))
+			glUniform1i(i, glGetUniformLocation(self.shader, "texture" + str(i)))
+	
 	def load_shaders(self, vert_shader_path, frag_shader_path):
 		self.shader = shader_loader.load_shader(vert_shader_path, frag_shader_path)
 
@@ -52,17 +56,19 @@ class model:
 
 		# tell OpenGL to use vertex data
 		gl_buf.set_buffer_as_vertex_attrib(0, self.vert_buf, 3)
-		gl_buf.set_buffer_as_vertex_attrib(1, self.uv_buf, 2)
+		gl_buf.set_buffer_as_vertex_attrib(1, self.color_buf, 3)
+		gl_buf.set_buffer_as_vertex_attrib(2, self.uv_buf, 2)
 
 		# pass textures to shaders
 		for i in range(len(self.textures)):
 			glActiveTexture(GL_TEXTURE0 + i)
 			glBindTexture(GL_TEXTURE_2D, self.textures[i])
-			glUniform1i(self.textureIDs[i], i)
 			debug.check_gl_error()
 
-		glDrawArrays(GL_TRIANGLES, 0, len(self.verts))
+		glDrawArrays(GL_TRIANGLES, 0, 36)
+		debug.check_gl_error()
 
 		# disable the attribute arrays after rendering
 		glDisableVertexAttribArray(0)
 		glDisableVertexAttribArray(1)
+		glDisableVertexAttribArray(2)

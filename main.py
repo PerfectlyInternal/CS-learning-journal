@@ -24,10 +24,10 @@ def main():
 	window = glfw_init.init()
 
 	# configure some OpenGL	global settings
-	glClearColor(0, 0, 0.25, 0) # when screen is cleared, make it black
+	glClearColor(0, 0.5, 0.5, 0) # when screen is cleared, make it black
 	glDepthFunc(GL_LESS) 	 # closer things are those with less distance from camera 
-	glEnable(GL_DEPTH_TEST)  # closer things should obscure farther things
-	glEnable(GL_CULL_FACE)	 # faces pointing away from the camera can be skipped
+	#glEnable(GL_DEPTH_TEST)  # closer things should obscure farther things
+	#glEnable(GL_CULL_FACE)	 # faces pointing away from the camera can be skipped
 
 	# vertex array object
 	# this is how OpenGL keeps track of groups of vertices and their attributes

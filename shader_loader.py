@@ -6,12 +6,12 @@ import gl_debugging as debug
 # fragment shaders calculate the color of each pixel on the screen using the data from the vertex shader
 def load_shader(vert_shader_path, frag_shader_path):
 	# read vertex shader data in binary format
-	vert_shader_file = open(vert_shader_path, 'rb')
+	vert_shader_file = open(vert_shader_path, 'r')
 	vert_shader_data = vert_shader_file.read()
 	vert_shader_file.close()
 
 	# read fragment shader data in binary format
-	frag_shader_file = open(frag_shader_path, 'rb')
+	frag_shader_file = open(frag_shader_path, 'r')
 	frag_shader_data = frag_shader_file.read()
 	frag_shader_file.close()
 
