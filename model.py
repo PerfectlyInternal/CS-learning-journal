@@ -34,13 +34,17 @@ class model:
 		self.textures = []
 		for path in texture_paths:
 			self.textures.append(texture_loader.load_texture(path))
+
 		if(len(self.textures) > GL_MAX_TEXTURE_UNITS):
 			print("Warning: too many textures loaded, OpenGL may not behave correctly")
 		
 		# get IDs for texture inputs and set which texture slot should be used for them in the shader program
 		glUseProgram(self.shader)
 		for i in range(len(self.textures)):
-			glUniform1i(i, glGetUniformLocation(self.shader, "texture" + str(i)))
+			uniformID = glGetUniformLocation(self.shader, "texture" + str(i))
+			if(uniformID >= 0):
+				glUniform1i(uniformID, i)
+			print(uniformID, i)
 	
 	def load_shaders(self, vert_shader_path, frag_shader_path):
 		self.shader = shader_loader.load_shader(vert_shader_path, frag_shader_path)
@@ -60,10 +64,10 @@ class model:
 		gl_buf.set_buffer_as_vertex_attrib(2, self.uv_buf, 2)
 
 		# pass textures to shaders
-		for i in range(len(self.textures)):
-			glActiveTexture(GL_TEXTURE0 + i)
-			glBindTexture(GL_TEXTURE_2D, self.textures[i])
-			debug.check_gl_error()
+		#for i in range(len(self.textures)):
+		#	glActiveTexture(GL_TEXTURE0 + i)
+		#	glBindTexture(GL_TEXTURE_2D, self.textures[i])
+		#	debug.check_gl_error()
 
 		glDrawArrays(GL_TRIANGLES, 0, 36)
 		debug.check_gl_error()
