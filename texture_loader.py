@@ -29,11 +29,11 @@ def load_texture(texture_path):
 	glTexImage2D(
 		GL_TEXTURE_2D, 	  # where to load texture data
 		0, 	 	  # mipmap level
-		GL_RGBA8, 	  # format to store data in
+		GL_RGB8, 	  # format to store data in
 		w, 		  # image dimensions
 		h,	 	  #
 		0, 		  # border thickness
-		GL_RGBA, 	  # format data is provided in
+		GL_RGB, 	  # format data is provided in
 		GL_UNSIGNED_BYTE, # type to read data as
 		image_data)	  # data to load as texture
 	debug.check_gl_error()
