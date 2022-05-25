@@ -16,7 +16,7 @@ glBindVertexArray(vao)
 model = model.model(None, 'shaders/basic_vert_shader.glsl', 'shaders/basic_frag_shader.glsl', [])
 # this is where the problem is, commenting this out magically makes everything work
 # the teture is never used, only loaded
-#texture = texture_loader.load_texture('textures/cube.png')
+texture = texture_loader.load_texture('textures/cube.png')
 glClearColor(1, 1, 1, 1)
 # main loop
 while(not (glfw.get_key(window, glfw.KEY_ESCAPE) or glfw.window_should_close(window))):

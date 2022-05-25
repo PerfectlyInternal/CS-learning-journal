@@ -1,9 +1,12 @@
 from OpenGL.GL import *
 import gl_debugging as debug
-from PIL import Image
+#from PIL import Image
+from scipy import misc
 
 # loads a texture from an image file into VRAM
 def load_texture(texture_path):
+	# this section was deprecated due to Pillow breaking OpenGL
+	"""
 	# open the image file and convert to necessary formats	
 	print("loading image", texture_path)
 	image = Image.open(texture_path)
@@ -12,6 +15,10 @@ def load_texture(texture_path):
 	w = image.width
 	h = image.height
 	image.close()
+	"""
+	# load image, do not convert to grayscale
+	image = misc.imread(texture_path, flatten=0)	
+	print(image)
 
 	# create the texture in VRAM
 	texture = glGenTextures(1)
