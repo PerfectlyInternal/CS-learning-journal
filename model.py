@@ -24,7 +24,6 @@ class model:
 			self.uv_buf = gl_buf.create_buffer_with_data(self.uv)
 		else:
 			self.verts = self.load_model(model_path)
-
 		# no default shaders, yet
 		if(vert_shader_path != None and frag_shader_path != None):
 			self.load_shaders(vert_shader_path, frag_shader_path)
@@ -64,12 +63,12 @@ class model:
 		gl_buf.set_buffer_as_vertex_attrib(2, self.uv_buf, 2)
 
 		# pass textures to shaders
-		#for i in range(len(self.textures)):
-		#	glActiveTexture(GL_TEXTURE0 + i)
-		#	glBindTexture(GL_TEXTURE_2D, self.textures[i])
-		#	debug.check_gl_error()
+		for i in range(len(self.textures)):
+			glActiveTexture(GL_TEXTURE0 + i)
+			glBindTexture(GL_TEXTURE_2D, self.textures[i])
+			debug.check_gl_error()
 
-		glDrawArrays(GL_TRIANGLES, 0, 36)
+		glDrawArrays(GL_TRIANGLES, 0, int(len(self.verts)/3))
 		debug.check_gl_error()
 
 		# disable the attribute arrays after rendering

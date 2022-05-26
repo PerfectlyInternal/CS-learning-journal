@@ -24,7 +24,7 @@ def main():
 	window = glfw_init.init()
 
 	# configure some OpenGL	global settings
-	glClearColor(0, 0.5, 0.5, 0) # when screen is cleared, make it black
+	glClearColor(1, 1, 1, 1) # when screen is cleared, make it white
 	glDepthFunc(GL_LESS) 	 # closer things are those with less distance from camera 
 	#glEnable(GL_DEPTH_TEST)  # closer things should obscure farther things
 	#glEnable(GL_CULL_FACE)	 # faces pointing away from the camera can be skipped
@@ -34,8 +34,9 @@ def main():
 	vao = glGenVertexArrays(1)
 	glBindVertexArray(vao)
 	
-	cube = model.model(None, 'shaders/basic_vert_shader.glsl', 'shaders/basic_frag_shader.glsl', ['textures/cube.png'])
-
+	cube = model.model(None, 'shaders/basic_vert_shader.glsl', 'shaders/basic_frag_shader.glsl', ['textures/cube.bmp'])
+	#cube = model.model(None, 'shaders/basic_vert_shader.glsl', 'shaders/basic_frag_shader.glsl', [])
+	
 	# while the esc key isnt pressed *and* the window shouldnt close
 	while(not (glfw.get_key(window, glfw.KEY_ESCAPE) or glfw.window_should_close(window))):
 		# clear the screen

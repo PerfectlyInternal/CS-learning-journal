@@ -1,7 +1,7 @@
 from OpenGL.GL import *
 import gl_debugging as debug
 #from PIL import Image
-from scipy import misc
+from bitmap import Image
 
 # loads a texture from an image file into VRAM
 def load_texture(texture_path):
@@ -16,9 +16,13 @@ def load_texture(texture_path):
 	h = image.height
 	image.close()
 	"""
-	# load image, do not convert to grayscale
-	image = misc.imread(texture_path, flatten=0)	
-	print(image)
+	# convert binary data from bmp file into pixel data and metadata
+	image = Image(open(texture_path, 'rb').read())	
+	image_data = image.getRawPixelData()
+
+	# get image dimensions, we need these later to allocate memory
+	w = image.getBitmapWidth()
+	h = image.getBitmapHeight()
 
 	# create the texture in VRAM
 	texture = glGenTextures(1)

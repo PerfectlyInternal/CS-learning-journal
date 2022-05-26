@@ -8,10 +8,10 @@ in vec2 fragUV;
 out vec4 color;
 
 // the texture sampler
-//uniform sampler2D texture0;
+uniform sampler2D texture0;
 
 void main() {
 	// this is how textures are sampled
-	color = vec4(fragUV.xy, fragColor.b, 1);
+	//color = vec4(fragUV.xy, fragColor.b, 1);
+	color = texture(texture0, fragUV);
 }
-
