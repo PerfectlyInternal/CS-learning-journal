@@ -2,13 +2,11 @@
 
 // vertex position in the world and vertex UV coords as inputs
 layout(location = 0) in vec3 vertPosModelSpace;
-layout(location = 1) in vec3 vertColor;
-layout(location = 2) in vec2 vertUV;
+layout(location = 1) in vec2 vertUV;
 
 // output is fragment UV coords, interpolated between vertices for each fragment
 // UV coords are basically X and Y coords on a texture
 // U and V go from 0 to 1, where (0, 0) is the bottom left corner and (1, 1) is the upper left corner 
-out vec3 fragColor;
 out vec2 fragUV;
 
 // transform matrix to turn world position into camera position
@@ -21,5 +19,4 @@ void main() {
 	
 	// vert uvs and colors dont change
 	fragUV = vertUV;
-	fragColor = vertColor;
 }

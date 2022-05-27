@@ -11,10 +11,7 @@ window = glfw_init.init() # create a window, no OpenGL calls
 vao = glGenVertexArrays(1) # vao stuff
 glBindVertexArray(vao)
 # model only loads verts and shaders, no textures
-model = model.model(None, 'shaders/basic_vert_shader.glsl', 'shaders/basic_frag_shader.glsl', [])
-# this is where the problem is, commenting this out magically makes everything work
-# the teture is never used, only loaded
-texture = texture_loader.load_texture('textures/cube.bmp')
+model = model.model(None, 'shaders/basic_vert_shader.glsl', 'shaders/basic_frag_shader.glsl', ['textures/cube.bmp'])
 glClearColor(1, 1, 1, 1)
 # main loop
 while(not (glfw.get_key(window, glfw.KEY_ESCAPE) or glfw.window_should_close(window))):

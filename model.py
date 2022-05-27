@@ -2,6 +2,7 @@ from OpenGL.GL import *
 
 import shader_loader
 import texture_loader
+import model_loader
 import gl_buffer_util as gl_buf
 import gl_debugging as debug
 import mvp
@@ -23,7 +24,8 @@ class model:
 			self.color_buf = gl_buf.create_buffer_with_data(self.colors)
 			self.uv_buf = gl_buf.create_buffer_with_data(self.uv)
 		else:
-			self.verts = self.load_model(model_path)
+			self.load_model(model_path)
+
 		# no default shaders, yet
 		if(vert_shader_path != None and frag_shader_path != None):
 			self.load_shaders(vert_shader_path, frag_shader_path)
@@ -49,7 +51,9 @@ class model:
 		self.shader = shader_loader.load_shader(vert_shader_path, frag_shader_path)
 
 	def load_model(self, model_path):
-		pass
+		self.verts, self.uv = model_loader.load_model(model_path)
+		self.vert_buf = gl_buf.create_buffer_with_data(self.verts)
+		self.uv_buf = gl_buf.create_buffer_with_data(self.uv)
 
 	def draw(self):
 		glUseProgram(self.shader)
@@ -59,8 +63,7 @@ class model:
 
 		# tell OpenGL to use vertex data
 		gl_buf.set_buffer_as_vertex_attrib(0, self.vert_buf, 3)
-		gl_buf.set_buffer_as_vertex_attrib(1, self.color_buf, 3)
-		gl_buf.set_buffer_as_vertex_attrib(2, self.uv_buf, 2)
+		gl_buf.set_buffer_as_vertex_attrib(1, self.uv_buf, 2)
 
 		# pass textures to shaders
 		for i in range(len(self.textures)):
@@ -69,9 +72,9 @@ class model:
 			debug.check_gl_error()
 
 		glDrawArrays(GL_TRIANGLES, 0, int(len(self.verts)/3))
+		glDrawArrays(GL_POINTS, 0, len(self.verts))
 		debug.check_gl_error()
 
 		# disable the attribute arrays after rendering
 		glDisableVertexAttribArray(0)
 		glDisableVertexAttribArray(1)
-		glDisableVertexAttribArray(2)

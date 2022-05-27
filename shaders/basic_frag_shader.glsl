@@ -1,7 +1,6 @@
 #version 330 core
 
 // interpolated values from vertex shader
-in vec3 fragColor;
 in vec2 fragUV;
 
 // color to draw on screen
@@ -12,6 +11,5 @@ uniform sampler2D texture0;
 
 void main() {
 	// this is how textures are sampled
-	//color = vec4(fragUV.xy, fragColor.b, 1);
 	color = texture(texture0, fragUV);
 }

@@ -8,9 +8,6 @@ print("OpenGL and supporting libraries imported successfully!")
 # utility imports
 import glfw_init
 import verts
-import gl_buffer_util as gl_buf
-import shader_loader
-import mvp
 import model
 import gl_debugging as debug
 print("utility libraries imported successfully!")
@@ -24,25 +21,24 @@ def main():
 	window = glfw_init.init()
 
 	# configure some OpenGL	global settings
-	glClearColor(1, 1, 1, 1) # when screen is cleared, make it white
+	glClearColor(0.5, 0.5, 0.5, 1) # when screen is cleared, make it white
 	glDepthFunc(GL_LESS) 	 # closer things are those with less distance from camera 
-	#glEnable(GL_DEPTH_TEST)  # closer things should obscure farther things
-	#glEnable(GL_CULL_FACE)	 # faces pointing away from the camera can be skipped
+	glEnable(GL_DEPTH_TEST)  # closer things should obscure farther things
+	glEnable(GL_CULL_FACE)	 # faces pointing away from the camera can be skipped
 
 	# vertex array object
 	# this is how OpenGL keeps track of groups of vertices and their attributes
 	vao = glGenVertexArrays(1)
 	glBindVertexArray(vao)
 	
-	cube = model.model(None, 'shaders/basic_vert_shader.glsl', 'shaders/basic_frag_shader.glsl', ['textures/cube.bmp'])
-	#cube = model.model(None, 'shaders/basic_vert_shader.glsl', 'shaders/basic_frag_shader.glsl', [])
+	thing = model.model('models/cone.obj', 'shaders/basic_vert_shader.glsl', 'shaders/basic_frag_shader.glsl', ['textures/airplane.bmp'])
 	
 	# while the esc key isnt pressed *and* the window shouldnt close
 	while(not (glfw.get_key(window, glfw.KEY_ESCAPE) or glfw.window_should_close(window))):
 		# clear the screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 		
-		cube.draw()
+		thing.draw()
 	
 		# draw all the new stuff to the screen
 		glfw.swap_buffers(window)
