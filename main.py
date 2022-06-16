@@ -1,50 +1,26 @@
-# opengl imports
-from OpenGL.GL import *
-from OpenGL.GLU import *
-import glfw
-import glm
-print("OpenGL and supporting libraries imported successfully!")
-
-# utility imports
+# my utils
 import glfw_init
-import verts
-import model
-import gl_debugging as debug
-print("utility libraries imported successfully!")
+import json_loader
 
-# other imports
+# OpenGL libs
+from OpenGL.GL import *
+import glfw
 
-print("All imports successful!")
+window = glfw_init.init() # create a window, no OpenGL calls
+vao = glGenVertexArrays(1) # vao stuff
+glBindVertexArray(vao)
 
-def main():
-	# initialize glfw
-	window = glfw_init.init()
+glClearColor(0.5, 0.5, 0.5, 1)
 
-	# configure some OpenGL	global settings
-	glClearColor(0.5, 0.5, 0.5, 1) # when screen is cleared, make it white
-	glDepthFunc(GL_LESS) 	 # closer things are those with less distance from camera 
-	glEnable(GL_DEPTH_TEST)  # closer things should obscure farther things
-	glEnable(GL_CULL_FACE)	 # faces pointing away from the camera can be skipped
+models = json_loader.load_json("json/fog.json")
 
-	# vertex array object
-	# this is how OpenGL keeps track of groups of vertices and their attributes
-	vao = glGenVertexArrays(1)
-	glBindVertexArray(vao)
-	
-	thing = model.model('models/cone.obj', 'shaders/basic_vert_shader.glsl', 'shaders/basic_frag_shader.glsl', ['textures/airplane.bmp'])
-	
-	# while the esc key isnt pressed *and* the window shouldnt close
-	while(not (glfw.get_key(window, glfw.KEY_ESCAPE) or glfw.window_should_close(window))):
-		# clear the screen
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-		
-		thing.draw()
-	
-		# draw all the new stuff to the screen
-		glfw.swap_buffers(window)
+# main loop
+while(not (glfw.get_key(window, glfw.KEY_ESCAPE) or glfw.window_should_close(window))):
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+	# draw the model with the verts and shaders, textures dont exist in there
 
-		# update input events
-		glfw.poll_events()
-	glfw.terminate()
+	for model in models:
+		model.draw()
 
-main()
+	glfw.swap_buffers(window)
+	glfw.poll_events()

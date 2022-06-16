@@ -14,7 +14,7 @@ import verts
 # shader program only exists within the instance, so setting uniforms has to happen in here
 # provides the method to draw itself as well
 class model:
-	def __init__(self, model_path=None, vert_shader_path=None, frag_shader_path=None, texture_paths=[]):
+	def __init__(self, model_path=None, vert_shader_path=None, frag_shader_path=None, texture_paths=[], offset=[0,0,0]):
 		# check if we should use default cube model
 		if(model_path == None):
 			self.verts = verts.verts
@@ -24,7 +24,7 @@ class model:
 			self.color_buf = gl_buf.create_buffer_with_data(self.colors)
 			self.uv_buf = gl_buf.create_buffer_with_data(self.uv)
 		else:
-			self.load_model(model_path)
+			self.load_model(model_path, offset)
 
 		# no default shaders, yet
 		if(vert_shader_path != None and frag_shader_path != None):
@@ -50,8 +50,8 @@ class model:
 	def load_shaders(self, vert_shader_path, frag_shader_path):
 		self.shader = shader_loader.load_shader(vert_shader_path, frag_shader_path)
 
-	def load_model(self, model_path):
-		self.verts, self.uv = model_loader.load_model(model_path)
+	def load_model(self, model_path, offset):
+		self.verts, self.uv = model_loader.load_model(model_path, offset)
 		self.vert_buf = gl_buf.create_buffer_with_data(self.verts)
 		self.uv_buf = gl_buf.create_buffer_with_data(self.uv)
 

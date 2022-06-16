@@ -1,5 +1,7 @@
+import copy
+
 # loads .obj files, 
-def load_model(model_path):
+def load_model(model_path, offset):
 	# open the model file for reading as text
 	model = open(model_path, 'r')
 
@@ -45,7 +47,10 @@ def load_model(model_path):
 		for vert in face:
 			pos_index = vert[0] - 1
 			uv_index = vert[1] - 1
-			pos = raw_verts[pos_index]
+			pos = copy.deepcopy(raw_verts[pos_index])
+			pos[0] += offset[0]
+			pos[1] += offset[1]
+			pos[2] += offset[2]
 			uv = raw_uvs[uv_index]
 			verts += pos # we need to concatenate the arrays for OpenGL to later understand it properly
 			uvs += uv
