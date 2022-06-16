@@ -1,0 +1,25 @@
+{
+	"donut": {
+		"model": "models/donut.obj",
+		"shaders": {
+			"vert_shader": "shaders/basic_vert_shader.glsl",
+			"frag_shader": "shaders/basic_frag_shader.glsl"
+		},
+		"textures": [
+			"textures/airplane.bmp"
+		],
+		"offset": [0, 0, 0]
+	},
+	"cube": {
+		"model": "models/cube.obj",
+		"shaders": {
+			"vert_shader": "shaders/basic_vert_shader.glsl",
+			"frag_shader": "shaders/blend_frag_shader.glsl"
+		},
+		"textures": [
+			"textures/airplane.bmp",
+			"textures/snail.bmp"
+		],
+		"offset": [3, 0, 0]
+	}
+}
